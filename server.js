@@ -5,13 +5,10 @@ const express = require("express");
 require("dotenv").config();
 
 const connectToDatabase = require("./config/database.config");
-const createUser = require("./router/createUser.route");
-const updateUser = require('./router/updateUser.route');
+const accountRoute = require('./router/account.route');
 const errorHandler = require('./middleware/errorHandler.middleware');
-const deleteUser = require('./router/deleteUser.route');
-const getUser = require('./router/getUser.route');
 
-const notFound = require('./router/notFound.route');
+// const notFound = require('./router/notFound.route');
 
 // Express app
 const app = express();
@@ -23,17 +20,14 @@ const port = process.env.PORT; // Running Port
 app.use(express.json())
 
 
-// Routing,
-app.use("/createUser", createUser);//create
-app.use("/updateUser" , updateUser); //Update
-app.use("/deleteUser" , deleteUser); //Delete
-app.use("/getUser" , getUser) ; //Get
+// Routing
+app.use("/" , accountRoute)
 
 
 
 // Error Handling
 app.use(errorHandler)
-app.use("*",notFound)
+app.use("*", accountRoute)
 
 app.listen(port, async () => {
   await connectToDatabase(); // Connection to Database
